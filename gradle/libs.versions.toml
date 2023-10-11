@@ -1,0 +1,87 @@
+[versions]
+# Plugins
+androidGradlePlugin = "8.1.0"
+kotlinPlugin = "1.9.0"
+ksp = "1.9.0-1.0.12"
+hilt = "2.48"
+# Libraries
+kotlinCompilerExtension = "1.5.2"
+ktx = "1.12.0"
+appcompat = "1.6.1"
+appcompatActivity = "1.7.1"
+activityCompose = "1.8.0-rc01"
+navigationCompose = "2.7.3"
+material = "1.9.0"
+hiltNavigationCompose = "1.0.0"
+lifecycle = "2.6.2"
+kotlinxSerializationJson = "1.5.1"
+kotlinxCollectionsImmutable = "0.3.5"
+retrofit2Converter = "2.9.0"
+retrofit = "2.9.0"
+googleMap = "3.0.0"
+okhttp = "4.11.0"
+loggingInterceptor = "4.9.0"
+compose-bom = "2023.09.02"
+oneSignal = "4.8.4"
+testJunit = "4.13.2"
+androidxTestJunit = "1.1.5"
+androidxTestEspresso = "3.5.1"
+dataStore = "1.0.0"
+coil = "2.4.0"
+coroutinesPlay = "1.7.1"
+coroutinesCore = "1.7.3"
+
+googleConnect="1.1.0-alpha04"
+googleFit = "21.1.0"
+googleAuth = "20.7.0"
+browser= "1.6.0"
+disparcherPermission= "4.9.2"
+
+biometric= "1.1.0"
+
+
+[libraries]
+androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-appcompat-normal = { module = "androidx.activity:activity-ktx", version.ref = "appcompatActivity" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process" }
+lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose" }
+lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+android-material = { module = "com.google.android.material:material", version.ref = "material" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+retrofit2-gson-converter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit2Converter" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+google-map-compose = { module = "com.google.maps.android:maps-compose", version.ref = "googleMap" }
+google-map-compose-utils = { module = "com.google.maps.android:maps-compose-utils", version.ref = "googleMap" }
+google-map-compose-widgets = { module = "com.google.maps.android:maps-compose-widgets", version.ref = "googleMap" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+ui = { group = "androidx.compose.ui", name = "ui" }
+ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+material = { group = "androidx.compose.material", name = "material" }
+material3 = { group = "androidx.compose.material3", name = "material3" }
+ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutinesPlay" }
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutinesCore" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version = "21.0.1" }
+
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+com-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinPlugin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinPlugin" }
+ksp-android = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+
+
