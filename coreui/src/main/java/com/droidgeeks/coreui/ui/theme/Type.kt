@@ -20,14 +20,14 @@ val weatherTypography = Typography(
         fontFamily = fonts,
         fontWeight = FontWeight.Light,
         color = Color.White,
-        fontSize = 96.sp,
+        fontSize = 28.sp,
         letterSpacing = 0.sp,
     ),
     h2 = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
         color = Color.White,
-        fontSize = 36.sp,
+        fontSize = 24.sp,
         letterSpacing = 0.sp
     ),
     h3 = TextStyle(
@@ -35,6 +35,13 @@ val weatherTypography = Typography(
         fontWeight = FontWeight.SemiBold,
         color = Color.White,
         fontSize = 20.sp,
+        letterSpacing = 0.sp
+    ),
+    h4 = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.Normal,
+        color = Color.White,
+        fontSize = 18.sp,
         letterSpacing = 0.sp
     ),
     button = TextStyle(

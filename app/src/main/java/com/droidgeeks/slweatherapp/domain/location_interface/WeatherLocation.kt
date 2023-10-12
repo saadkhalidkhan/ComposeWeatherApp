@@ -1,4 +1,4 @@
-package com.droidgeeks.slweatherapp.domain.location
+package com.droidgeeks.slweatherapp.domain.location_interface
 
 import android.location.Location
 
