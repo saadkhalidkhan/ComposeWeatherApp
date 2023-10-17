@@ -18,14 +18,14 @@ val fonts = FontFamily(
 val weatherTypography = Typography(
     h1 = TextStyle(
         fontFamily = fonts,
-        fontWeight = FontWeight.Light,
+        fontWeight = FontWeight.SemiBold,
         color = Color.White,
         fontSize = 28.sp,
-        letterSpacing = 0.sp,
+        letterSpacing = 2.sp,
     ),
     h2 = TextStyle(
         fontFamily = fonts,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.SemiBold,
         color = Color.White,
         fontSize = 24.sp,
         letterSpacing = 0.sp
@@ -58,4 +58,11 @@ val weatherTypography = Typography(
         fontSize = 18.sp,
         letterSpacing = 0.sp,
     ),
+    caption = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.SemiBold,
+        color = Color.White,
+        fontSize = 15.sp,
+        letterSpacing = 0.sp
+    )
 )
