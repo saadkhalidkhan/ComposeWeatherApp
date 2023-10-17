@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CoreUI</string>
+    <string name="gps_is_disable_please_enable_gps_to_fetch_your_location">Please Enable GPS to get Current Location!</string>
+
 </resources>

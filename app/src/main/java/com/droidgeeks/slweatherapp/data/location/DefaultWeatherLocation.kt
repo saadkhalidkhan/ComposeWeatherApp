@@ -6,17 +6,21 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.droidgeeks.slweatherapp.domain.location_interface.WeatherLocation
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
+
 class DefaultWeatherLocation @Inject constructor(
     private val locationClient: FusedLocationProviderClient,
-    private val application: Application
+    private val application: Application,
 ) : WeatherLocation {
 
     override suspend fun getCurrentLocation(): Location? {
@@ -30,16 +34,9 @@ class DefaultWeatherLocation @Inject constructor(
             Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
-        val locationManager =
-            application.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val isGpsEnabled =
-            locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) || locationManager.isProviderEnabled(
-                LocationManager.GPS_PROVIDER
-            )
-
         if (!hasAccessCoarseLocationPermission || !hasAccessFineLocationPermission) {
             Log.d("Location", "No Permission Granted")
-        } else if (!isGpsEnabled) {
+        } else if (!isLocationEnabled(application)) {
             Log.d("Location", "No GPS Granted")
         }
 
@@ -62,4 +59,20 @@ class DefaultWeatherLocation @Inject constructor(
             }
         }
     }
+
+    private fun isLocationEnabled(application: Application): Boolean {
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            val provider: String = Settings.Secure.getString(
+                application.contentResolver,
+                Settings.Secure.LOCATION_PROVIDERS_ALLOWED
+            )
+            provider != ""
+        } else {
+            val locationManager = application.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+            val gps = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            val network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            gps || network
+        }
+    }
+
 }
