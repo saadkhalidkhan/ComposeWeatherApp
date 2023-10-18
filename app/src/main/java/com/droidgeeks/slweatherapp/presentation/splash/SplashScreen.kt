@@ -12,15 +12,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,54 +28,47 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.droidgeeks.coreui.ui.theme.WeatherAppTheme
 import com.droidgeeks.slweatherapp.R
-import com.droidgeeks.slweatherapp.presentation.navigation.NavScreen
 import kotlin.random.Random
 
 @Composable
-fun SplashScreen(navController: NavController) {
+fun SplashScreen(onGetStarted: () -> Unit = {}) {
     WeatherAppTheme() {
-        Scaffold(modifier = Modifier) {padding ->
-            Background(modifier = Modifier.padding())
-            val screenWidth = LocalConfiguration.current.screenWidthDp.dp+ 50.dp
-            val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-            val animatedValue = remember { Animatable(initialValue = screenWidth.value) }
-            LaunchedEffect(Unit) {
-                animatedValue.animateTo(
-                    targetValue = 0f,
-                    animationSpec = tween(durationMillis = 2000)
-                )
-            }
-            Foreground(animatedValue)
+        Background(modifier = Modifier.padding())
+        val screenWidth = LocalConfiguration.current.screenWidthDp.dp + 50.dp
+        val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+        val animatedValue = remember { Animatable(initialValue = screenWidth.value) }
+        LaunchedEffect(Unit) {
+            animatedValue.animateTo(
+                targetValue = 0f,
+                animationSpec = tween(durationMillis = 2000)
+            )
         }
+        Foreground(animatedValue, onGetStarted)
     }
 }
 
 @Composable
-fun Foreground(animatedValue: Animatable<Float, AnimationVector1D>) {
+fun Foreground(animatedValue: Animatable<Float, AnimationVector1D>, onGetStarted: () -> Unit) {
 
     Box(modifier = Modifier
         .fillMaxSize()
         .graphicsLayer {
             this.translationX
         }
-    ){
+    ) {
         Image(
             painter = painterResource(id = R.drawable.clouds),
             modifier = Modifier
@@ -120,21 +110,24 @@ fun Foreground(animatedValue: Animatable<Float, AnimationVector1D>) {
                 .offset(x = animatedValue.value.dp),
             contentDescription = "cloud"
         )
-        Column(modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .wrapContentSize()
-            .padding(bottom = 100.dp)
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .wrapContentSize()
+                .padding(bottom = 100.dp)
         ) {
 
-            Text(text = "Weather",
+            Text(
+                text = stringResource(R.string.weather),
                 modifier = Modifier
                     .offset(y = (10).dp)
                     .align(Alignment.CenterHorizontally),
                 fontStyle = FontStyle.Normal,
                 fontSize = 58.sp,
 
-            )
-            Text(text = "Forecasts",
+                )
+            Text(
+                text = stringResource(R.string.forecasts),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = 30.dp),
@@ -143,22 +136,24 @@ fun Foreground(animatedValue: Animatable<Float, AnimationVector1D>) {
             )
             Button(
                 onClick = {
-                    navController.popBackStack()
-                    navController.navigate(NavScreen.Main.route)
+                    onGetStarted()
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant),
                 shape = RoundedCornerShape(30.dp),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .height(58.dp)
-                    .offset(y = (-100).dp)
             ) {
-                Text(text = "Get Started", modifier = Modifier.padding(horizontal = 52.dp))
+                Text(
+                    text = stringResource(R.string.get_started),
+                    modifier = Modifier.padding(horizontal = 52.dp)
+                )
             }
 
         }
     }
 }
+
 private fun drawStars(drawScope: DrawScope, screenWidth: Float, screenHeight: Float) {
     val screenArea = screenWidth * screenHeight
     val numStars = (screenArea / 50).toInt()
@@ -177,7 +172,7 @@ private fun drawStars(drawScope: DrawScope, screenWidth: Float, screenHeight: Fl
 }
 
 @Composable
-fun Background(modifier: Modifier = Modifier){
+fun Background(modifier: Modifier = Modifier) {
 //    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 //    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
@@ -204,20 +199,22 @@ fun Background(modifier: Modifier = Modifier){
 
 @Preview
 @Composable
-fun BackgroundPreview(){
+fun BackgroundPreview() {
     WeatherAppTheme {
         Background()
     }
 }
+
 @Preview
 @Composable
-fun ForegroundPreview(){
+fun ForegroundPreview() {
     WeatherAppTheme {
 //        Foreground(animatedValue)
     }
 }
+
 @Preview
 @Composable
-fun SplashScreenPReview(){
-    SplashScreen(rememberNavController())
+fun SplashScreenPReview() {
+    SplashScreen()
 }

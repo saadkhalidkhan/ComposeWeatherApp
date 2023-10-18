@@ -1,8 +1,6 @@
 package com.droidgeeks.slweatherapp.presentation.navigation
 
-import android.app.Activity
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,7 +17,13 @@ fun NavGraph(
         composable(
             route = NavScreen.Splash.route
         ) {
-            SplashScreen(navController = navController)
+            SplashScreen(onGetStarted = {
+                navController.navigate(NavRoutes.MAIN_SCREEN) {
+                    popUpTo(NavRoutes.MAIN_SCREEN) {
+                        inclusive = true
+                    }
+                }
+            })
         }
         composable(
             route = NavScreen.Main.route
