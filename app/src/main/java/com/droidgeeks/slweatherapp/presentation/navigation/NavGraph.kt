@@ -19,7 +19,7 @@ fun NavGraph(
         ) {
             SplashScreen(onGetStarted = {
                 navController.navigate(NavRoutes.MAIN_SCREEN) {
-                    popUpTo(NavRoutes.MAIN_SCREEN) {
+                    popUpTo(NavRoutes.SPLASH_SCREEN) {
                         inclusive = true
                     }
                 }
