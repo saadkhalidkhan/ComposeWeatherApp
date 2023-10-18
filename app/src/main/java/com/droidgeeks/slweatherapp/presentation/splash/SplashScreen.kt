@@ -42,12 +42,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.droidgeeks.coreui.ui.theme.WeatherAppTheme
 import com.droidgeeks.slweatherapp.R
+import com.droidgeeks.slweatherapp.presentation.navigation.NavScreen
 import kotlin.random.Random
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(navController: NavController) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
@@ -115,7 +118,10 @@ fun SplashScreen() {
                 style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight(20))
             )
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navController.popBackStack()
+                    navController.navigate(NavScreen.Main.route)
+                },
                 colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant),
                 shape = RoundedCornerShape(30.dp),
                 modifier = Modifier
@@ -149,6 +155,6 @@ private fun drawStars(drawScope: DrawScope, screenWidth: Float, screenHeight: Fl
 @Composable
 fun SplashScreenPreview(){
     WeatherAppTheme {
-        SplashScreen()
+        SplashScreen(rememberNavController())
     }
 }
