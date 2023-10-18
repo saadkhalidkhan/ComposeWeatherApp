@@ -23,7 +23,7 @@ import com.droidgeeks.coreui.R
 import com.droidgeeks.coreui.ui.theme.CellStroke
 
 @Composable
-fun enableGPS(
+fun EnableGPS(
     context: Context,
     permissions: Array<String>,
     onAllowed: (Boolean) -> Unit,
@@ -50,9 +50,7 @@ fun enableGPS(
                         it
                     ) == PackageManager.PERMISSION_GRANTED
                 }) {
-                println("Hamza Mehboob 4")
                 if (isLocationEnabled(context)) {
-                    println("Hamza Mehboob 3")
                     onAllowed.invoke(true)
                     openDialog.value=false
                 } else {

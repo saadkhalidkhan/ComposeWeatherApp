@@ -41,7 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.droidgeeks.coreui.ui.BackgroundImage
 import com.droidgeeks.coreui.ui.ForecastCell
-import com.droidgeeks.coreui.ui.enableGPS
+import com.droidgeeks.coreui.ui.EnableGPS
 import com.droidgeeks.coreui.ui.theme.BottomBg
 import com.droidgeeks.coreui.ui.theme.CellStroke
 import com.droidgeeks.coreui.ui.theme.weatherTypography
@@ -97,8 +97,8 @@ fun HomeScreen(
     val weatherForecast by viewModel.todayForecast.collectAsStateWithLifecycle()
     val isLoading by viewModel.homeWeatherState.collectAsStateWithLifecycle()
 
-    if (isLocationNull) {
-        enableGPS(context, permissions) {
+    if (isLocationNull && isPermissionsGranted) { //only ask for gps if permission is allowed
+        EnableGPS(context, permissions) {
             if (it)
             {
                 println("Hamza Mehboob 1")
@@ -140,7 +140,7 @@ fun HomeScreen(
                         weatherForecast?.let {
                             CurrentWeather(
                                 it.location.name,
-                                it.currentWeather.temperature.toString(),
+                                it.currentWeather.temperature.toInt().toString(),
                                 it.currentWeather.condition.text,
                                 it.forecast.forecastday[0].day.maxTemp.toInt().toString(),
                                 it.forecast.forecastday[0].day.minTemp.toInt().toString()
