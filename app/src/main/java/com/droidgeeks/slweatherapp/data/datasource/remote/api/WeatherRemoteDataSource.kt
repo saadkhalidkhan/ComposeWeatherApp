@@ -7,4 +7,5 @@ class WeatherRemoteDataSource @Inject constructor(private val api: WeatherApi) {
     suspend fun getForecastData(latitude: Double, longitude: Double) =
         api.WeatherForeCast(latitude, longitude)
 
+    suspend fun getTodayData(location:String) = api.TodayForecast(location)
 }
