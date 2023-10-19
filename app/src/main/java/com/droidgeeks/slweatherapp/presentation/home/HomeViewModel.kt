@@ -39,6 +39,12 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    fun requestLocationUpdate() {
+        viewModelScope.launch {
+            defaultWeatherLocation.getCurrentLocation()
+        }
+    }
+
     fun getCurrentLocation() {
         viewModelScope.launch {
             _location = defaultWeatherLocation.getCurrentLocation()

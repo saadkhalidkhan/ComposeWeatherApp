@@ -4,4 +4,5 @@ import android.location.Location
 
 interface WeatherLocation {
     suspend fun getCurrentLocation(): Location?
+    suspend fun requestLocationUpdate()
 }

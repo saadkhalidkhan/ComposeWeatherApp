@@ -40,8 +40,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.droidgeeks.coreui.ui.BackgroundImage
-import com.droidgeeks.coreui.ui.ForecastCell
 import com.droidgeeks.coreui.ui.EnableGPS
+import com.droidgeeks.coreui.ui.ForecastCell
 import com.droidgeeks.coreui.ui.theme.BottomBg
 import com.droidgeeks.coreui.ui.theme.CellStroke
 import com.droidgeeks.coreui.ui.theme.weatherTypography
@@ -86,9 +86,10 @@ fun HomeScreen(
     )
 
     LaunchedEffect(key1 = requestPermission) {
-        if(requestPermission){
+        if (requestPermission) {
             launchPermissions.launch(permissions)
         }
+        viewModel.requestLocationUpdate()
         requestPermission = false
     }
 
@@ -99,12 +100,10 @@ fun HomeScreen(
 
     if (isLocationNull && isPermissionsGranted) { //only ask for gps if permission is allowed
         EnableGPS(context, permissions) {
-            if (it)
-            {
+            if (it) {
                 println("Hamza Mehboob 1")
                 viewModel.getCurrentLocation()
-            }
-            else {
+            } else {
                 closeApp = true
             }
         }
