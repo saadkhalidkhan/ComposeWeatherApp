@@ -8,5 +8,8 @@
     <string name="weather">Weather</string>
     <string name="forecasts">Forecasts</string>
     <string name="get_started">Get Started</string>
+    <string name="aqi_low">3-Low Health Risk</string>
+    <string name="air_quality">AIR QUALITY</string>
+    <string name="aqi_img_desc">AQI</string>
 
 </resources>
