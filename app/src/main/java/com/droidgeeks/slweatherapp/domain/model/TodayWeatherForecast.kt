@@ -13,7 +13,7 @@ data class TodayWeatherForecast(
 data class Location(
     val name: String,
     @SerializedName("localtime")
-    val time:String
+    val time: String
 )
 
 data class CurrentWeather(
@@ -38,14 +38,19 @@ data class Forecast(
 
 data class ForecastDay(
     val hour: List<HourData>,
-    val day: DayData
+    val day: DayData,
+    val date: String
 )
 
 data class DayData(
     @SerializedName("maxtemp_c")
     val maxTemp: Float,
     @SerializedName("mintemp_c")
-    val minTemp: Float
+    val minTemp: Float,
+    @SerializedName("avgtemp_c")
+    val avgTemp: Float,
+    @SerializedName("condition")
+    val avgCondition: Condition
 )
 
 
