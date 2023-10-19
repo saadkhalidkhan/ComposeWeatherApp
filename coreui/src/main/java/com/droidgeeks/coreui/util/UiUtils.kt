@@ -1,5 +1,8 @@
 package com.droidgeeks.coreui.util
 
+import java.text.SimpleDateFormat
+import java.util.Locale
+
 fun String.extractTime(): String {
     val parts = this.split(" ")
     return if (parts.size > 1) {
@@ -20,4 +23,15 @@ fun String.isSameTime(timeSlot: String): Boolean {
     val slotMinutesSinceMidnight = slotHours * 60
 
     return aMinutesSinceMidnight == slotMinutesSinceMidnight
+}
+
+fun getDayNameFromDate(dateString: String): String {
+    val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val date = format.parse(dateString)
+    return if (date != null) {
+        val dayOfWeek = SimpleDateFormat("EEEE", Locale.getDefault()).format(date)
+        dayOfWeek
+    } else {
+        "Invalid Date"
+    }
 }

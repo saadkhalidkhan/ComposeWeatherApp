@@ -15,7 +15,7 @@ interface WeatherApi {
     @GET(Constant.TODAY_WEATHER_END_POINT)
     suspend fun TodayForecast(
         @Query("q") loc: String,
-        @Query("days") days: Int = 1
+        @Query("days") days: Int,
     ) : TodayWeatherForecast
 
 }

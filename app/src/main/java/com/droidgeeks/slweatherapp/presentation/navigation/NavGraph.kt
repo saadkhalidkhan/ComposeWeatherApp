@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.droidgeeks.slweatherapp.presentation.details.DetailScreen
 import com.droidgeeks.slweatherapp.presentation.home.HomeScreen
 import com.droidgeeks.slweatherapp.presentation.splash.SplashScreen
 
@@ -28,7 +29,16 @@ fun NavGraph(
         composable(
             route = NavScreen.Main.route
         ) {
-            HomeScreen(context = LocalContext.current)
+            HomeScreen(context = LocalContext.current, onSeeAllClicked = {
+                navController.navigate(NavRoutes.DETAIL_SCREEN + "/$it")
+            })
+        }
+
+        composable(
+            route = NavScreen.Detail.route + "/{id}"
+        ) {
+            val latLong = it.arguments?.getString("id")
+            DetailScreen(latLong)
         }
     }
 

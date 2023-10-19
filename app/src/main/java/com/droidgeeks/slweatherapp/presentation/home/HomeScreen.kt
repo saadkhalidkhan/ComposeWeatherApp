@@ -54,6 +54,7 @@ import com.droidgeeks.slweatherapp.domain.model.HourData
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     context: Context,
+    onSeeAllClicked: (latLng : String) -> Unit = {}
 ) {
 
     var isPermissionsGranted by remember {
@@ -154,7 +155,9 @@ fun HomeScreen(
                         weatherForecast?.let {
                             Forecast(
                                 it.forecast.forecastday[0].hour,
-                                it.location.time.extractTime()
+                                it.location.time.extractTime(),
+                                onSeeAllClicked,
+                                viewModel.latLng.value
                             )
                         }
                     }
@@ -199,7 +202,12 @@ fun HomeScreen(
 }
 
 @Composable
-fun Forecast(forecast: List<HourData>, currentTime: String) {
+fun Forecast(
+    forecast: List<HourData>,
+    currentTime: String,
+    onSeeAllClicked: (latLng: String) -> Unit,
+    latLng: String
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -220,7 +228,9 @@ fun Forecast(forecast: List<HourData>, currentTime: String) {
                     modifier = Modifier.padding(5.dp)
                 )
 
-                TextButton(onClick = {}) {
+                TextButton(onClick = {
+                    onSeeAllClicked(latLng)
+                }) {
                     Text(
                         text = stringResource(id = R.string.see_all),
                         style = weatherTypography.button,
