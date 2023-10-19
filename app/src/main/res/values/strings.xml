@@ -8,5 +8,6 @@
     <string name="weather">Weather</string>
     <string name="forecasts">Forecasts</string>
     <string name="get_started">Get Started</string>
+    <string name="weekly_forecast">Weekly Forecast</string>
 
 </resources>

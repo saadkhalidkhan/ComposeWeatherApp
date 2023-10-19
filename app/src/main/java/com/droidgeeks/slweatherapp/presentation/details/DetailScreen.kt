@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,6 +40,7 @@ import com.droidgeeks.coreui.ui.theme.weatherTypography
 import com.droidgeeks.coreui.util.extractTime
 import com.droidgeeks.coreui.util.getDayNameFromDate
 import com.droidgeeks.coreui.util.isSameTime
+import com.droidgeeks.slweatherapp.R
 import com.droidgeeks.slweatherapp.domain.model.ForecastDay
 import com.droidgeeks.slweatherapp.domain.model.HourData
 import com.droidgeeks.slweatherapp.presentation.home.HomeWeatherState
@@ -97,7 +99,10 @@ fun DetailScreen(
                             .fillMaxSize()
                     ) {
                         var selectedTab by remember { mutableIntStateOf(0) }
-                        val tabs = listOf("Hourly Forecast", "Weekly Forecast")
+                        val tabs = listOf(
+                            stringResource(id = R.string.hourly_forecast),
+                            stringResource(R.string.weekly_forecast)
+                        )
 
                         Column {
                             CustomTabLayout(
