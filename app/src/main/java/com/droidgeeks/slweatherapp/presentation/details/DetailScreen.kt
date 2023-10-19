@@ -29,9 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.droidgeeks.coreui.ui.CustomTabLayout
-import com.droidgeeks.coreui.ui.ForecastCell
-import com.droidgeeks.coreui.ui.WeekForecastCell
+import com.droidgeeks.coreui.ui.reusable.CustomTabLayout
+import com.droidgeeks.coreui.ui.reusable.ForecastCell
+import com.droidgeeks.coreui.ui.reusable.WeekForecastCell
 import com.droidgeeks.coreui.ui.theme.Purple1
 import com.droidgeeks.coreui.ui.theme.Purple2
 import com.droidgeeks.coreui.ui.theme.Purple3

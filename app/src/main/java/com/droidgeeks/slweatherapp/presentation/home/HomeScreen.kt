@@ -39,9 +39,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.droidgeeks.coreui.ui.BackgroundImage
 import com.droidgeeks.coreui.ui.EnableGPS
-import com.droidgeeks.coreui.ui.ForecastCell
+import com.droidgeeks.coreui.ui.reusable.BackgroundImage
+import com.droidgeeks.coreui.ui.reusable.ForecastCell
 import com.droidgeeks.coreui.ui.theme.BottomBg
 import com.droidgeeks.coreui.ui.theme.CellStroke
 import com.droidgeeks.coreui.ui.theme.weatherTypography
@@ -54,7 +54,7 @@ import com.droidgeeks.slweatherapp.domain.model.HourData
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     context: Context,
-    onSeeAllClicked: (latLng : String) -> Unit = {}
+    onSeeAllClicked: (latLng: String) -> Unit = {}
 ) {
 
     var isPermissionsGranted by remember {

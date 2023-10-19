@@ -22,7 +22,7 @@ fun BackgroundImage() {
     ) {
         Image(
             painter = painterResource(id = R.drawable.bg),
-            contentDescription = "",
+            contentDescription = "Background Image",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillBounds
         )
