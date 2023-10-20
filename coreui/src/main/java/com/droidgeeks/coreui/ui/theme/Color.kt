@@ -23,6 +23,11 @@ val BottomBg = Color(0x42000000)
 val DarkBlue = Color(0xFF252B35)
 val Blue = Color(0xFF2D5F7A)
 val LightBlue = Color(0xFF5D89A6)
+val Purple1 = Color(0xFF241936)
+val Purple2 = Color(0xFF4E3677)
+val Purple3 = Color(0xFF322150)
+val Purple4 = Color(0xFFC3ACEC)
+val LightGray = Color(0xFF858A8F)
 
 internal val DarkColorPalette = darkColors(
     primary = Black,

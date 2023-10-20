@@ -15,5 +15,6 @@
     <string name="sunset">Sunset: </string>
     <string name="aqi_img_desc">AQI</string>
     <string name="moderate">Moderate</string>
+    <string name="weekly_forecast">Weekly Forecast</string>
 
 </resources>

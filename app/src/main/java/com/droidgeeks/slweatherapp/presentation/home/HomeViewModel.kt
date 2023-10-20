@@ -29,6 +29,8 @@ class HomeViewModel @Inject constructor(
     private val _isLocationNull = MutableStateFlow(false)
     var isLocationNull = _isLocationNull.asStateFlow()
 
+    var latLng = MutableStateFlow<String>("")
+
 
     private fun getTodayWeatherForecast(latlng: String) {
         viewModelScope.launch {
@@ -39,12 +41,19 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    fun requestLocationUpdate() {
+        viewModelScope.launch {
+            defaultWeatherLocation.getCurrentLocation()
+        }
+    }
+
     fun getCurrentLocation() {
         viewModelScope.launch {
             _location = defaultWeatherLocation.getCurrentLocation()
             _location?.let {
                 _isLocationNull.value = false
                 getTodayWeatherForecast("${it.latitude},${it.longitude}")
+                latLng.value =  "${it.latitude},${it.longitude}"
             } ?: run {
                 println("Hamza Mehboob null")
                 _isLocationNull.value = true

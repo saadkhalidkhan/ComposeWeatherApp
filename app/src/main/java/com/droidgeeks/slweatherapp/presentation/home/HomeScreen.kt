@@ -39,9 +39,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.droidgeeks.coreui.ui.BackgroundImage
-import com.droidgeeks.coreui.ui.ForecastCell
 import com.droidgeeks.coreui.ui.EnableGPS
+import com.droidgeeks.coreui.ui.reusable.BackgroundImage
+import com.droidgeeks.coreui.ui.reusable.ForecastCell
 import com.droidgeeks.coreui.ui.theme.BottomBg
 import com.droidgeeks.coreui.ui.theme.CellStroke
 import com.droidgeeks.coreui.ui.theme.weatherTypography
@@ -54,6 +54,7 @@ import com.droidgeeks.slweatherapp.domain.model.HourData
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     context: Context,
+    onSeeAllClicked: (latLng: String) -> Unit = {}
 ) {
 
     var isPermissionsGranted by remember {
@@ -86,9 +87,10 @@ fun HomeScreen(
     )
 
     LaunchedEffect(key1 = requestPermission) {
-        if(requestPermission){
+        if (requestPermission) {
             launchPermissions.launch(permissions)
         }
+        viewModel.requestLocationUpdate()
         requestPermission = false
     }
 
@@ -99,12 +101,10 @@ fun HomeScreen(
 
     if (isLocationNull && isPermissionsGranted) { //only ask for gps if permission is allowed
         EnableGPS(context, permissions) {
-            if (it)
-            {
+            if (it) {
                 println("Hamza Mehboob 1")
                 viewModel.getCurrentLocation()
-            }
-            else {
+            } else {
                 closeApp = true
             }
         }
@@ -155,7 +155,9 @@ fun HomeScreen(
                         weatherForecast?.let {
                             Forecast(
                                 it.forecast.forecastday[0].hour,
-                                it.location.time.extractTime()
+                                it.location.time.extractTime(),
+                                onSeeAllClicked,
+                                viewModel.latLng.value
                             )
                         }
                     }
@@ -200,7 +202,12 @@ fun HomeScreen(
 }
 
 @Composable
-fun Forecast(forecast: List<HourData>, currentTime: String) {
+fun Forecast(
+    forecast: List<HourData>,
+    currentTime: String,
+    onSeeAllClicked: (latLng: String) -> Unit,
+    latLng: String
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -221,7 +228,9 @@ fun Forecast(forecast: List<HourData>, currentTime: String) {
                     modifier = Modifier.padding(5.dp)
                 )
 
-                TextButton(onClick = {}) {
+                TextButton(onClick = {
+                    onSeeAllClicked(latLng)
+                }) {
                     Text(
                         text = stringResource(id = R.string.see_all),
                         style = weatherTypography.button,
