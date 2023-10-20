@@ -46,6 +46,7 @@ import com.droidgeeks.coreui.ui.theme.BottomBg
 import com.droidgeeks.coreui.ui.theme.CellStroke
 import com.droidgeeks.coreui.ui.theme.weatherTypography
 import com.droidgeeks.coreui.util.extractTime
+import com.droidgeeks.coreui.util.isJustBeforeCurrent
 import com.droidgeeks.coreui.util.isSameTime
 import com.droidgeeks.slweatherapp.R
 import com.droidgeeks.slweatherapp.domain.model.HourData
@@ -102,7 +103,6 @@ fun HomeScreen(
     if (isLocationNull && isPermissionsGranted) { //only ask for gps if permission is allowed
         EnableGPS(context, permissions) {
             if (it) {
-                println("Hamza Mehboob 1")
                 viewModel.getCurrentLocation()
             } else {
                 closeApp = true
@@ -208,6 +208,13 @@ fun Forecast(
     onSeeAllClicked: (latLng: String) -> Unit,
     latLng: String
 ) {
+
+    val list = mutableListOf<HourData>()
+    forecast.forEach {
+        if (currentTime.isJustBeforeCurrent(it.time.extractTime()))
+            list.add(it)
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -243,7 +250,7 @@ fun Forecast(
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.padding(10.dp)
             ) {
-                itemsIndexed(forecast) { index, item ->
+                itemsIndexed(list) { index, item ->
                     Box(modifier = Modifier.padding(bottom = 10.dp)) {
                         ForecastCell(
                             icon = "https://${item.condition.icon}",
@@ -251,6 +258,7 @@ fun Forecast(
                             temperature = "${item.temperature.toInt()} °",
                             isCurrentTime = currentTime.isSameTime(item.time.extractTime())
                         )
+
                     }
                 }
 

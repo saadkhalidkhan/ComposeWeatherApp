@@ -25,6 +25,21 @@ fun String.isSameTime(timeSlot: String): Boolean {
     return aMinutesSinceMidnight == slotMinutesSinceMidnight
 }
 
+fun String.isJustBeforeCurrent(timeSlot: String): Boolean {
+    // Convert time A to minutes since midnight
+    val aParts = this.split(":")
+    val aHours = aParts[0].toInt()
+    val aMinutesSinceMidnight = aHours * 60
+
+    val slotParts = timeSlot.split(":")
+    val slotHours = slotParts[0].toInt()
+    val slotMinutesSinceMidnight = slotHours * 60
+
+    val time = aMinutesSinceMidnight - slotMinutesSinceMidnight
+    println("HAMZA MEHBOOB " + time)
+    return time <= 240 || slotMinutesSinceMidnight > aMinutesSinceMidnight
+}
+
 fun getDayNameFromDate(dateString: String): String {
     val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val date = format.parse(dateString)
