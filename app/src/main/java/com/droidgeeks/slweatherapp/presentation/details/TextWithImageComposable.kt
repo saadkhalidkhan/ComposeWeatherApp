@@ -2,7 +2,9 @@ package com.droidgeeks.slweatherapp.presentation.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,13 +25,14 @@ fun TextWithImageComposable (imageRes: Int, text: String) {
     ) {
         Image(
             painter = painterResource(id = imageRes),
-            contentDescription = stringResource(id = R.string.aqi_img_desc)
+            contentDescription = stringResource(id = R.string.aqi_img_desc),
+            modifier = Modifier.height(18.dp).width(18.dp)
         )
         Text(
             text = text,
             style = weatherTypography.body1,
-            fontSize = 14.sp,
-            modifier = Modifier.padding(start = 3.dp),
+            fontSize = 16.sp,
+            modifier = Modifier.padding(start = 5.dp),
             color = colorResource(id = R.color.purple_8c85a4)
         )
     }

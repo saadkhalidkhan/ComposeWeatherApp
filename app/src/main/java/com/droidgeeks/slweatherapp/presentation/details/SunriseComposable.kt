@@ -3,10 +3,10 @@ package com.droidgeeks.slweatherapp.presentation.details
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -18,14 +18,15 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.droidgeeks.coreui.ui.theme.weatherTypography
 import com.droidgeeks.slweatherapp.R
 
 @Composable
-fun AirQualityComposable() {
+fun SunriseBlockComposable(timeSunrise: String, timeSunset: String) {
     Card( modifier = Modifier
         .fillMaxWidth()
-        .height(154.dp)
+        .height(180.dp)
         .shadow(
             elevation = 50.dp,
             shape = RoundedCornerShape(8.dp),
@@ -37,29 +38,27 @@ fun AirQualityComposable() {
     ) {
         Column (
             modifier = Modifier
-                .fillMaxSize()
-                .padding(15.dp)
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
-            TextWithImageComposable(imageRes = R.drawable.ic_aqi, text = stringResource(id = R.string.air_quality))
-            Spacer(modifier = Modifier.height(10.dp))
-            HealthRiskComposable(text = stringResource(id = R.string.aqi_low))
-            Spacer(modifier = Modifier.height(10.dp))
-            SliderComposable(3f)
+            TextWithImageComposable(
+                imageRes = R.drawable.ic_sun,
+                text = stringResource(id = R.string.sunrise)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = timeSunrise,
+                style = weatherTypography.h1,
+                fontSize = 38.sp
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            SineCurveWithMovingDot()
         }
     }
 }
 
-@Composable
-fun HealthRiskComposable(text: String) {
-    Text(
-        text = text,
-        style = weatherTypography.h2,
-        color = colorResource(id = R.color.white)
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
-fun AQIComposable() {
-    AirQualityComposable()
+fun SunrisePreview() {
+    SunriseBlockComposable("5:00 AM", "7:00 PM")
 }
