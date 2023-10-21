@@ -1,4 +1,4 @@
-package com.droidgeeks.coreui.ui.reusable
+package com.droidgeeks.coreui.ui.reusable.tab_layout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height

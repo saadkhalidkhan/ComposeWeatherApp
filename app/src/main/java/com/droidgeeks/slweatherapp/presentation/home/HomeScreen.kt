@@ -41,7 +41,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.droidgeeks.coreui.ui.EnableGPS
 import com.droidgeeks.coreui.ui.reusable.BackgroundImage
-import com.droidgeeks.coreui.ui.reusable.ForecastCell
+import com.droidgeeks.coreui.ui.reusable.fields.SearchField
+import com.droidgeeks.coreui.ui.reusable.forecast_cell.ForecastCell
 import com.droidgeeks.coreui.ui.theme.BottomBg
 import com.droidgeeks.coreui.ui.theme.CellStroke
 import com.droidgeeks.coreui.ui.theme.weatherTypography
@@ -99,7 +100,7 @@ fun HomeScreen(
     val isLocationNull by viewModel.isLocationNull.collectAsStateWithLifecycle()
     val weatherForecast by viewModel.todayForecast.collectAsStateWithLifecycle()
     val isLoading by viewModel.homeWeatherState.collectAsStateWithLifecycle()
-
+    val searchPhrase = remember { mutableStateOf("") }
     if (isLocationNull && isPermissionsGranted) { //only ask for gps if permission is allowed
         EnableGPS(context, permissions) {
             if (it) {
@@ -125,17 +126,22 @@ fun HomeScreen(
         if (isLoading == HomeWeatherState.Loading) {
             CircularProgressIndicator(modifier = Modifier.size(50.dp))
         } else {
-
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(scrollState)
             ) {
+                SearchField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 70.dp, start = 24.dp, end = 24.dp),
+                    searchText = stringResource(R.string.enter_location),
+                    onSearchAction = { cityName -> viewModel.getCityInformation(cityName) },
+                    searchPhrase = searchPhrase
+                )
                 if (isPermissionsGranted) {
                     Box(
-                        modifier = Modifier
-                            .weight(1f),
-                        contentAlignment = Alignment.BottomCenter
+                        modifier = Modifier.align(Alignment.Center),
                     ) {
                         weatherForecast?.let {
                             CurrentWeather(
@@ -149,7 +155,7 @@ fun HomeScreen(
 
                     }
                     Box(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.align(Alignment.BottomCenter),
                         contentAlignment = Alignment.BottomStart
                     ) {
                         weatherForecast?.let {
@@ -164,7 +170,7 @@ fun HomeScreen(
                 } else {
                     Box(
                         modifier = Modifier
-                            .weight(1f)
+                            .fillMaxSize()
                             .padding(10.dp),
                         contentAlignment = Alignment.Center
                     ) {
