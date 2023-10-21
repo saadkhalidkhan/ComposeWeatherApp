@@ -26,6 +26,7 @@ fun AirQualityComposable(humidity: Float = 3f) { //repurposed because AQI not av
     Card( modifier = Modifier
         .fillMaxWidth()
         .height(154.dp)
+        .padding(horizontal = 4.dp)
         .shadow(
             elevation = 50.dp,
             shape = RoundedCornerShape(8.dp),

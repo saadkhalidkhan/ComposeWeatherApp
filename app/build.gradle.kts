@@ -86,6 +86,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.coillib)
     implementation(libs.constraintLayoutCompose)
+    implementation(libs.systemUiController)
     androidTestImplementation(platform(libs.compose.bom))
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)

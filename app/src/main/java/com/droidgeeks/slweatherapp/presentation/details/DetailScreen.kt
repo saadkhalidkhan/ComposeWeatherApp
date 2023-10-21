@@ -188,6 +188,7 @@ fun DetailScreen(
                                     modifier = Modifier
                                         .weight(1f)
                                         .fillMaxSize()
+                                        .padding(bottom = 4.dp)
                                 ) {
                                     WindStatusComposable(
                                         angle = weatherForecast?.currentWeather?.windDegree?.toFloat() ?: 0f,

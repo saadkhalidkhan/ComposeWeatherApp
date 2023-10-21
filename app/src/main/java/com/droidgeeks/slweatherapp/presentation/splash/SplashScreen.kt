@@ -41,10 +41,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.droidgeeks.coreui.ui.theme.WeatherAppTheme
 import com.droidgeeks.slweatherapp.R
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlin.random.Random
 
 @Composable
 fun SplashScreen(onGetStarted: () -> Unit = {}) {
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(
+        color = colorResource(id = R.color.blue_FF271644),
+        darkIcons = false
+    )
     WeatherAppTheme() {
         Background(modifier = Modifier.padding())
         val screenWidth = LocalConfiguration.current.screenWidthDp.dp + 50.dp
