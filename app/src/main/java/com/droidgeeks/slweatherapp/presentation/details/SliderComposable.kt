@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SliderComposable(position: Float) {
+fun SliderComposable(position: Float, maxRange: Float = 10f) {
     var sliderPosition by remember { mutableStateOf(0.5f) }
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -40,7 +40,7 @@ fun SliderComposable(position: Float) {
             ),
             modifier = Modifier.fillMaxWidth(),
             steps = 1,
-            valueRange = 0f .. 10f
+            valueRange = 0f .. maxRange
         )
     }
 }

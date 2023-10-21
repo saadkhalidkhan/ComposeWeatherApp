@@ -45,11 +45,10 @@ fun SunriseBlockComposable(timeSunrise: String, timeSunset: String) {
                 imageRes = R.drawable.ic_sun,
                 text = stringResource(id = R.string.sunrise)
             )
-            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = timeSunrise,
                 style = weatherTypography.h1,
-                fontSize = 38.sp
+                fontSize = 28.sp
             )
             Spacer(modifier = Modifier.height(4.dp))
             SineCurveWithMovingDot()

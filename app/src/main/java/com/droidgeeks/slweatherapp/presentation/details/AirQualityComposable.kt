@@ -22,7 +22,7 @@ import com.droidgeeks.coreui.ui.theme.weatherTypography
 import com.droidgeeks.slweatherapp.R
 
 @Composable
-fun AirQualityComposable() {
+fun AirQualityComposable(humidity: Float = 3f) { //repurposed because AQI not available
     Card( modifier = Modifier
         .fillMaxWidth()
         .height(154.dp)
@@ -40,11 +40,11 @@ fun AirQualityComposable() {
                 .fillMaxSize()
                 .padding(15.dp)
         ) {
-            TextWithImageComposable(imageRes = R.drawable.ic_aqi, text = stringResource(id = R.string.air_quality))
+            TextWithImageComposable(imageRes = R.drawable.ic_aqi, text = stringResource(id = R.string.humidity))
             Spacer(modifier = Modifier.height(10.dp))
-            HealthRiskComposable(text = stringResource(id = R.string.aqi_low))
+            HealthRiskComposable(text = getHumidityDescription(humidity))
             Spacer(modifier = Modifier.height(10.dp))
-            SliderComposable(3f)
+            SliderComposable(humidity, 100f)
         }
     }
 }
@@ -62,4 +62,14 @@ fun HealthRiskComposable(text: String) {
 @Composable
 fun AQIComposable() {
     AirQualityComposable()
+}
+
+fun getHumidityDescription(humidity: Float): String {
+    val humidityInt = humidity.toInt()
+    return when {
+        humidity < 30f -> "$humidityInt-Low humidity"
+        humidity in 30f..60f -> "$humidityInt-Moderate humidity"
+        humidity > 60f -> "$humidityInt-High humidity"
+        else -> "$humidityInt-Unknown"
+    }
 }

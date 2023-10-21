@@ -10,11 +10,14 @@
     <string name="get_started">Get Started</string>
     <string name="aqi_low">3-Low Health Risk</string>
     <string name="air_quality">AIR QUALITY</string>
+    <string name="wind">WIND</string>
+    <string name="humidity">HUMIDITY</string>
     <string name="uv_index">UV INDEX</string>
     <string name="sunrise">SUNRISE</string>
     <string name="sunset">Sunset: </string>
     <string name="aqi_img_desc">AQI</string>
     <string name="moderate">Moderate</string>
     <string name="weekly_forecast">Weekly Forecast</string>
+    <string name="kmh">km/h</string>
 
 </resources>

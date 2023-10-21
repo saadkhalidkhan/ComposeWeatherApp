@@ -21,6 +21,18 @@ data class CurrentWeather(
     val temperature: Float,
     @SerializedName("is_day")
     val isDayTime: Int,
+    @SerializedName("uv")
+    val uv: Int,
+    @SerializedName("wind_kph")
+    val windKph: Double,
+    @SerializedName("wind_dir")
+    val windDir: String,
+    @SerializedName("wind_degree")
+    val windDegree: Int,
+    @SerializedName("pressure_mb")
+    val pressure: Double,
+    @SerializedName("humidity")
+    val humidity: Int,
     val condition: Condition
 
 )
@@ -39,7 +51,8 @@ data class Forecast(
 data class ForecastDay(
     val hour: List<HourData>,
     val day: DayData,
-    val date: String
+    val date: String,
+    val astro: AstroData
 )
 
 data class DayData(
@@ -51,6 +64,11 @@ data class DayData(
     val avgTemp: Float,
     @SerializedName("condition")
     val avgCondition: Condition
+)
+
+data class AstroData(
+    val sunrise: String ?,
+    val sunset: String ?
 )
 
 

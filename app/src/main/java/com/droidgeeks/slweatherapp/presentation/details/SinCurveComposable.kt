@@ -27,7 +27,7 @@ fun SineCurveWithMovingDot(
     height: Float = 200f,
     startAngle: Float = (-90f * PI / 180f).toFloat(),
     color: Color = Color.White,
-    curveWidth: Float = 16f,
+    curveWidth: Float = 8f,
     pointsCount: Int = 500,
     sunrise: Int = 5 * 60,
     sunset: Int = 20 * 60
@@ -41,9 +41,9 @@ fun SineCurveWithMovingDot(
             val progress = updatedTime.toFloat() / totalMinutes.toFloat()
             animationProgress.animateTo(
                 targetValue = progress,
-                animationSpec = tween(durationMillis = 10000, easing = LinearEasing)
+                animationSpec = tween(durationMillis = 3000, easing = LinearEasing)
             )
-            delay(10000)
+            delay(1000)
         }
     }
     Canvas(
@@ -71,7 +71,7 @@ fun SineCurveWithMovingDot(
         //draws dot
         val dotX = size.width * animationProgress.value
         val dotY = ((size.height / 2) - (size.height / 2) * kotlin.math.sin(dotX * (2 * PI) / size.width + startAngle)).toFloat()
-        drawCircle(color = Color.Yellow, radius = 32f, center = Offset(dotX, dotY))
+        drawCircle(color = Color.Yellow, radius = 16f, center = Offset(dotX, dotY))
 
 
         val sunriseY = (size.height / 2) - (size.height / 2) * kotlin.math.sin((sunrise * (2 * PI) / totalMinutes).toFloat() + startAngle)
