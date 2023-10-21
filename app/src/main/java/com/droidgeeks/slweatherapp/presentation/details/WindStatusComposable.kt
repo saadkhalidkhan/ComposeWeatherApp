@@ -43,7 +43,6 @@ fun WindStatusComposable(angle: Float, speed: String, direction: String, pressur
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(15.dp)
         ) {
             TextWithImageComposable(imageRes = R.drawable.ic_air, text = stringResource(id = R.string.wind))
@@ -63,20 +62,19 @@ fun WindStatusComposable(angle: Float, speed: String, direction: String, pressur
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
+                        text = "${angle.toInt()} \u00B0",
+                        style = weatherTypography.body1,
+                        color = colorResource(id = R.color.white)
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
                         text = "${pressure.toInt()} hPa",
                         style = weatherTypography.body1,
                         color = colorResource(id = R.color.white)
                     )
                 }
-                Spacer(modifier = Modifier.width(20.dp))
-                Image(
-                    modifier = Modifier
-                        .rotate(angle)
-                        .height(60.dp)
-                        .width(60.dp),
-                    painter = painterResource(id = R.drawable.ic_compass),
-                    contentDescription = null
-                )
+                Spacer(modifier = Modifier.width(80.dp))
+                CompassView(angle = angle)
             }
         }
     }

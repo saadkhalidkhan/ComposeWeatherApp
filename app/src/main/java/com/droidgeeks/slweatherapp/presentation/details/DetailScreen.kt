@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -79,9 +80,18 @@ fun DetailScreen(
             } else {
                 Column(
                     modifier = Modifier
-                        .background(Purple1)
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    Color(0xFF1E2653),
+                                    Color(0xFF271644)
+                                )
+                            )
+                        )
                         .fillMaxSize()
+                        .padding(bottom = 20.dp)
                 ) {
+                    Spacer(modifier = Modifier.height(20.dp))
                     weatherForecast?.let {
                         CurrentWeatherDetail(
                             city = it.location.name,
@@ -94,16 +104,16 @@ fun DetailScreen(
                             .padding(top = 100.dp, start = 15.dp, end = 15.dp)
                             .fillMaxSize()
                             .shadow(5.dp),
-                        shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
+                        shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 19.dp, bottomEnd = 19.dp),
                         border = BorderStroke(1.dp, Purple1)
                     ) {
                         Column(
                             Modifier
                                 .background(
-                                    brush = Brush.horizontalGradient(
+                                    brush = Brush.verticalGradient(
                                         colors = listOf(
-                                            Purple3,
-                                            Purple2
+                                            Color(0xFF1E2653),
+                                            Color(0xFF271644)
                                         )
                                     )
                                 )
