@@ -191,7 +191,7 @@ fun DetailScreen(
                                 ) {
                                     WindStatusComposable(
                                         angle = weatherForecast?.currentWeather?.windDegree?.toFloat() ?: 0f,
-                                        speed = weatherForecast?.currentWeather?.windKph.toString() ?: "0",
+                                        speed = weatherForecast?.currentWeather?.windKph.toString(),
                                         direction = weatherForecast?.currentWeather?.windDir ?: "",
                                         pressure = weatherForecast?.currentWeather?.pressure ?: 0.0
                                     )
