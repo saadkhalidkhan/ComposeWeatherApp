@@ -37,12 +37,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.droidgeeks.coreui.ui.reusable.CustomTabLayout
-import com.droidgeeks.coreui.ui.reusable.ForecastCell
-import com.droidgeeks.coreui.ui.reusable.WeekForecastCell
+import com.droidgeeks.coreui.ui.reusable.tab_layout.CustomTabLayout
+import com.droidgeeks.coreui.ui.reusable.forecast_cell.ForecastCell
+import com.droidgeeks.coreui.ui.reusable.forecast_cell.WeekForecastCell
 import com.droidgeeks.coreui.ui.theme.Purple1
-import com.droidgeeks.coreui.ui.theme.Purple2
-import com.droidgeeks.coreui.ui.theme.Purple3
 import com.droidgeeks.coreui.ui.theme.weatherTypography
 import com.droidgeeks.coreui.util.extractTime
 import com.droidgeeks.coreui.util.getDayNameFromDate

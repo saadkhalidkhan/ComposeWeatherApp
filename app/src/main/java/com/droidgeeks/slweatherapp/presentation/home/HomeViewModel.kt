@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.droidgeeks.slweatherapp.data.datasource.remote.api.WeatherRemoteDataSource
 import com.droidgeeks.slweatherapp.data.location.DefaultWeatherLocation
+import com.droidgeeks.slweatherapp.domain.model.CityWeatherResponseModel
 import com.droidgeeks.slweatherapp.domain.model.TodayWeatherForecast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,26 +25,49 @@ class HomeViewModel @Inject constructor(
     private val _todayForecast = MutableStateFlow<TodayWeatherForecast?>(null)
     val todayForecast = _todayForecast.asStateFlow()
 
+    private val _cityInformation = MutableStateFlow<List<CityWeatherResponseModel>?>(null)
+    val cityInformation = _cityInformation.asStateFlow()
+
     private var _location: Location? = null
 
     private val _isLocationNull = MutableStateFlow(false)
     var isLocationNull = _isLocationNull.asStateFlow()
 
-    var latLng = MutableStateFlow<String>("")
+    var latLng = MutableStateFlow("")
 
 
-    private fun getTodayWeatherForecast(latlng: String) {
+    private fun getTodayWeatherForecast(latlng: String, showLoader: Boolean = true) {
         viewModelScope.launch {
-            _homeWeatherState.value = HomeWeatherState.Loading
+            if (showLoader)
+                _homeWeatherState.value = HomeWeatherState.Loading
             _todayForecast.value = weatherRemoteDataSource.getTodayData(latlng)
             _homeWeatherState.value = HomeWeatherState.Success("Success")
         }
 
     }
 
+    fun getCityInformation(cityName: String) {
+        viewModelScope.launch {
+            _homeWeatherState.value = HomeWeatherState.Loading
+            _cityInformation.value = weatherRemoteDataSource.getCityData(cityName)
+
+            if (_cityInformation.value != null) {
+                val cityList = _cityInformation.value
+                if (cityList!!.isNotEmpty()) {
+                    val cityLatLng = "${cityList[0].lat},${cityList[0].lon}"
+                    latLng.value = cityLatLng
+                    getTodayWeatherForecast(cityLatLng, false)
+                }
+            } else {
+                _homeWeatherState.value = HomeWeatherState.Success("Success")
+            }
+        }
+
+    }
+
     fun requestLocationUpdate() {
         viewModelScope.launch {
-            defaultWeatherLocation.getCurrentLocation()
+            defaultWeatherLocation.requestLocationUpdate()
         }
     }
 
@@ -53,7 +77,7 @@ class HomeViewModel @Inject constructor(
             _location?.let {
                 _isLocationNull.value = false
                 getTodayWeatherForecast("${it.latitude},${it.longitude}")
-                latLng.value =  "${it.latitude},${it.longitude}"
+                latLng.value = "${it.latitude},${it.longitude}"
             } ?: run {
                 println("Hamza Mehboob null")
                 _isLocationNull.value = true
