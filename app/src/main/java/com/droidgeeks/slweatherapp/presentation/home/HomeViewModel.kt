@@ -1,6 +1,7 @@
 package com.droidgeeks.slweatherapp.presentation.home
 
 import android.location.Location
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.droidgeeks.slweatherapp.data.datasource.remote.api.WeatherRemoteDataSource
@@ -18,6 +19,10 @@ class HomeViewModel @Inject constructor(
     private val weatherRemoteDataSource: WeatherRemoteDataSource,
     private val defaultWeatherLocation: DefaultWeatherLocation
 ) : ViewModel() {
+
+    val searchState = mutableStateOf("")
+    var requestPermission = mutableStateOf(true)
+    var isPermissionsGranted = mutableStateOf(true)
 
     private val _homeWeatherState = MutableStateFlow<HomeWeatherState>(HomeWeatherState.Initial)
     val homeWeatherState = _homeWeatherState.asStateFlow()
@@ -47,19 +52,23 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getCityInformation(cityName: String) {
-        viewModelScope.launch {
-            _homeWeatherState.value = HomeWeatherState.Loading
-            _cityInformation.value = weatherRemoteDataSource.getCityData(cityName)
+        if (cityName.isBlank()) {
+            getCurrentLocation()
+        } else {
+            viewModelScope.launch {
+                _homeWeatherState.value = HomeWeatherState.Loading
+                _cityInformation.value = weatherRemoteDataSource.getCityData(cityName)
 
-            if (_cityInformation.value != null) {
-                val cityList = _cityInformation.value
-                if (cityList!!.isNotEmpty()) {
-                    val cityLatLng = "${cityList[0].lat},${cityList[0].lon}"
-                    latLng.value = cityLatLng
-                    getTodayWeatherForecast(cityLatLng, false)
+                if (!_cityInformation.value.isNullOrEmpty()) {
+                    val cityList = _cityInformation.value
+                    if (cityList!!.isNotEmpty()) {
+                        val cityLatLng = "${cityList[0].lat},${cityList[0].lon}"
+                        latLng.value = cityLatLng
+                        getTodayWeatherForecast(cityLatLng, false)
+                    }
+                } else {
+                    _homeWeatherState.value = HomeWeatherState.Success("Success")
                 }
-            } else {
-                _homeWeatherState.value = HomeWeatherState.Success("Success")
             }
         }
 

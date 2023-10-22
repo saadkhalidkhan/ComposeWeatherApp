@@ -61,12 +61,15 @@ fun HomeScreen(
     onSeeAllClicked: (latLng: String) -> Unit = {}
 ) {
 
-    var isPermissionsGranted by remember {
-        mutableStateOf(true)
-    }
-    var requestPermission by remember {
-        mutableStateOf(true)
-    }
+
+    //means location is not available because of gps
+    val isLocationNull by viewModel.isLocationNull.collectAsStateWithLifecycle()
+    val weatherForecast by viewModel.todayForecast.collectAsStateWithLifecycle()
+    val isLoading by viewModel.homeWeatherState.collectAsStateWithLifecycle()
+    val searchPhrase = viewModel.searchState
+    val requestPermission = viewModel.requestPermission
+    val isPermissionsGranted = viewModel.isPermissionsGranted
+
     var closeApp by remember {
         mutableStateOf(false)
     }
@@ -75,13 +78,13 @@ fun HomeScreen(
             if (permissionsMap.isNotEmpty()) {
                 val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
                 if (areGranted) {
-                    isPermissionsGranted = true
+                    isPermissionsGranted.value = true
                     viewModel.getCurrentLocation()
                 } else {
-                    isPermissionsGranted = false
+                    isPermissionsGranted.value = false
                 }
             } else {
-                isPermissionsGranted = false
+                isPermissionsGranted.value = false
             }
         }
 
@@ -90,20 +93,15 @@ fun HomeScreen(
         Manifest.permission.ACCESS_FINE_LOCATION
     )
 
-    LaunchedEffect(key1 = requestPermission) {
-        if (requestPermission) {
+    LaunchedEffect(key1 = requestPermission.value) {
+        if (requestPermission.value) {
             launchPermissions.launch(permissions)
         }
         viewModel.requestLocationUpdate()
-        requestPermission = false
+        requestPermission.value = false
     }
 
-    //means location is not available because of gps
-    val isLocationNull by viewModel.isLocationNull.collectAsStateWithLifecycle()
-    val weatherForecast by viewModel.todayForecast.collectAsStateWithLifecycle()
-    val isLoading by viewModel.homeWeatherState.collectAsStateWithLifecycle()
-    val searchPhrase = remember { mutableStateOf("") }
-    if (isLocationNull && isPermissionsGranted) { //only ask for gps if permission is allowed
+    if (isLocationNull && isPermissionsGranted.value) { //only ask for gps if permission is allowed
         EnableGPS(context, permissions) {
             if (it) {
                 viewModel.getCurrentLocation()
@@ -141,7 +139,7 @@ fun HomeScreen(
                     onSearchAction = { cityName -> viewModel.getCityInformation(cityName) },
                     searchPhrase = searchPhrase
                 )
-                if (isPermissionsGranted) {
+                if (isPermissionsGranted.value) {
                     Box(
                         modifier = Modifier.align(Alignment.Center),
                     ) {
@@ -186,7 +184,7 @@ fun HomeScreen(
                                 textAlign = TextAlign.Center
                             )
                             Button(
-                                onClick = { requestPermission = true }, modifier = Modifier
+                                onClick = { requestPermission.value = true }, modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(10.dp)
                             ) {
