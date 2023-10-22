@@ -37,9 +37,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.droidgeeks.coreui.ui.reusable.tab_layout.CustomTabLayout
+import com.droidgeeks.coreui.ui.reusable.BackgroundImage
 import com.droidgeeks.coreui.ui.reusable.forecast_cell.ForecastCell
 import com.droidgeeks.coreui.ui.reusable.forecast_cell.WeekForecastCell
+import com.droidgeeks.coreui.ui.reusable.tab_layout.CustomTabLayout
 import com.droidgeeks.coreui.ui.theme.Purple1
 import com.droidgeeks.coreui.ui.theme.weatherTypography
 import com.droidgeeks.coreui.util.extractTime
@@ -63,138 +64,134 @@ fun DetailScreen(
             viewModel.getWeatherForecast(it)
         }
     }
-    Column(
+    Box(
         modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            if (isLoading == HomeWeatherState.Loading) {
-                CircularProgressIndicator(modifier = Modifier.size(50.dp))
-            } else {
-                Column(
+        BackgroundImage()
+        if (isLoading == HomeWeatherState.Loading) {
+            CircularProgressIndicator(modifier = Modifier.size(50.dp))
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 20.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Spacer(modifier = Modifier.height(20.dp))
+                weatherForecast?.let {
+                    CurrentWeatherDetail(
+                        city = it.location.name,
+                        temp = it.currentWeather.temperature.toInt().toString(),
+                        condition = it.currentWeather.condition.text
+                    )
+                }
+                Card(
                     modifier = Modifier
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = listOf(
-                                    Color(0xFF1E2653),
-                                    Color(0xFF271644)
-                                )
-                            )
-                        )
+                        .padding(top = 100.dp, start = 15.dp, end = 15.dp)
                         .fillMaxSize()
-                        .padding(bottom = 20.dp)
+                        .shadow(5.dp),
+                    shape = RoundedCornerShape(
+                        topStart = 10.dp,
+                        topEnd = 10.dp,
+                        bottomStart = 19.dp,
+                        bottomEnd = 19.dp
+                    ),
+                    border = BorderStroke(1.dp, Purple1)
                 ) {
-                    Spacer(modifier = Modifier.height(20.dp))
-                    weatherForecast?.let {
-                        CurrentWeatherDetail(
-                            city = it.location.name,
-                            temp = it.currentWeather.temperature.toInt().toString(),
-                            condition = it.currentWeather.condition.text
-                        )
-                    }
-                    Card(
-                        modifier = Modifier
-                            .padding(top = 100.dp, start = 15.dp, end = 15.dp)
-                            .fillMaxSize()
-                            .shadow(5.dp),
-                        shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp, bottomStart = 19.dp, bottomEnd = 19.dp),
-                        border = BorderStroke(1.dp, Purple1)
-                    ) {
-                        Column(
-                            Modifier
-                                .background(
-                                    brush = Brush.verticalGradient(
-                                        colors = listOf(
-                                            Color(0xFF1E2653),
-                                            Color(0xFF271644)
-                                        )
+                    Column(
+                        Modifier
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    colors = listOf(
+                                        Color(0xFF1E2653),
+                                        Color(0xFF271644)
                                     )
                                 )
-                                .fillMaxSize()
-                        ) {
-                            var selectedTab by remember { mutableIntStateOf(0) }
-                            val tabs = listOf(
-                                stringResource(id = R.string.hourly_forecast),
-                                stringResource(R.string.weekly_forecast)
                             )
+                            .fillMaxSize()
+                    ) {
+                        var selectedTab by remember { mutableIntStateOf(0) }
+                        val tabs = listOf(
+                            stringResource(id = R.string.hourly_forecast),
+                            stringResource(R.string.weekly_forecast)
+                        )
 
-                            Column {
-                                CustomTabLayout(
-                                    tabs = tabs,
-                                    selectedTab = selectedTab,
-                                    onTabSelected = { newTab ->
-                                        selectedTab = newTab
+                        Column {
+                            CustomTabLayout(
+                                tabs = tabs,
+                                selectedTab = selectedTab,
+                                onTabSelected = { newTab ->
+                                    selectedTab = newTab
+                                }
+                            )
+                            when (selectedTab) {
+                                0 -> {
+                                    weatherForecast?.let {
+                                        setHourlyList(
+                                            forecast = it.forecast.forecastday[0].hour,
+                                            currentTime = it.location.time.extractTime()
+                                        )
                                     }
-                                )
-                                when (selectedTab) {
-                                    0 -> {
-                                        weatherForecast?.let {
-                                            setHourlyList(
-                                                forecast = it.forecast.forecastday[0].hour,
-                                                currentTime = it.location.time.extractTime()
-                                            )
-                                        }
-                                    }
+                                }
 
-                                    1 -> {
-                                        weatherForecast?.let {
-                                            setWeeklyList(forecast = it.forecast.forecastday)
-                                        }
+                                1 -> {
+                                    weatherForecast?.let {
+                                        setWeeklyList(forecast = it.forecast.forecastday)
                                     }
                                 }
                             }
-                            Spacer(modifier = Modifier.height(20.dp))
-                            AirQualityComposable(weatherForecast?.currentWeather?.humidity?.toFloat() ?: 0f)
-                            Spacer(modifier = Modifier.height(10.dp))
-                            Row(
-                                modifier = Modifier.padding(horizontal = 4.dp),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                                ) {
-                                Box(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .fillMaxSize()
-                                ) {
-                                    UVIndexComposable(
-                                        intensity = weatherForecast?.currentWeather?.uv ?: 0
-                                    )
-                                }
-                                Box(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .fillMaxSize()
-                                ) {
-                                    SunriseBlockComposable(
-                                        timeSunrise = weatherForecast?.forecast?.forecastday?.get(0)?.astro?.sunrise
-                                            ?: "",
-                                        timeSunset = weatherForecast?.forecast?.forecastday?.get(0)?.astro?.sunset
-                                            ?: ""
-                                    )
-                                }
-                            }
-                            Spacer(modifier = Modifier.height(10.dp))
-                            Row(
-                                modifier = Modifier.padding(horizontal = 4.dp),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
+                        AirQualityComposable(
+                            weatherForecast?.currentWeather?.humidity?.toFloat() ?: 0f
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Row(
+                            modifier = Modifier.padding(horizontal = 10.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxSize()
                             ) {
-                                Box(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .fillMaxSize()
-                                        .padding(bottom = 4.dp)
-                                ) {
-                                    WindStatusComposable(
-                                        angle = weatherForecast?.currentWeather?.windDegree?.toFloat() ?: 0f,
-                                        speed = weatherForecast?.currentWeather?.windKph.toString(),
-                                        direction = weatherForecast?.currentWeather?.windDir ?: "",
-                                        pressure = weatherForecast?.currentWeather?.pressure ?: 0.0
-                                    )
-                                }
+                                UVIndexComposable(
+                                    intensity = weatherForecast?.currentWeather?.uv ?: 0
+                                )
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxSize()
+                            ) {
+                                SunriseBlockComposable(
+                                    timeSunrise = weatherForecast?.forecast?.forecastday?.get(0)?.astro?.sunrise
+                                        ?: "",
+                                    timeSunset = weatherForecast?.forecast?.forecastday?.get(0)?.astro?.sunset
+                                        ?: ""
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Row(
+                            modifier = Modifier.padding(horizontal = 10.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxSize()
+                                    .padding(bottom = 4.dp)
+                            ) {
+                                WindStatusComposable(
+                                    angle = weatherForecast?.currentWeather?.windDegree?.toFloat()
+                                        ?: 0f,
+                                    speed = weatherForecast?.currentWeather?.windKph.toString(),
+                                    direction = weatherForecast?.currentWeather?.windDir ?: "",
+                                    pressure = weatherForecast?.currentWeather?.pressure ?: 0.0
+                                )
                             }
                         }
                     }
