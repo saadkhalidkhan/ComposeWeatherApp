@@ -49,6 +49,10 @@ import com.droidgeeks.coreui.util.isSameTime
 import com.droidgeeks.slweatherapp.R
 import com.droidgeeks.slweatherapp.domain.model.ForecastDay
 import com.droidgeeks.slweatherapp.domain.model.HourData
+import com.droidgeeks.slweatherapp.presentation.details.entity.AirQualityComposable
+import com.droidgeeks.slweatherapp.presentation.details.entity.SunriseBlockComposable
+import com.droidgeeks.slweatherapp.presentation.details.entity.UVIndexComposable
+import com.droidgeeks.slweatherapp.presentation.details.entity.WindStatusComposable
 import com.droidgeeks.slweatherapp.presentation.home.HomeWeatherState
 
 @Composable

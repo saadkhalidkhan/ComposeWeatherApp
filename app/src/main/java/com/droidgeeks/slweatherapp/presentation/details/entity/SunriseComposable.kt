@@ -1,9 +1,8 @@
-package com.droidgeeks.slweatherapp.presentation.details
+package com.droidgeeks.slweatherapp.presentation.details.entity
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,7 +22,7 @@ import com.droidgeeks.coreui.ui.theme.weatherTypography
 import com.droidgeeks.slweatherapp.R
 
 @Composable
-fun UVIndexComposable(intensity: Int) {
+fun SunriseBlockComposable(timeSunrise: String, timeSunset: String) {
     Card( modifier = Modifier
         .fillMaxWidth()
         .height(180.dp)
@@ -39,27 +38,27 @@ fun UVIndexComposable(intensity: Int) {
         Column (
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(vertical = 16.dp)
         ) {
-            TextWithImageComposable(imageRes = R.drawable.ic_sun, text = stringResource(id = R.string.uv_index))
-            Spacer(modifier = Modifier.height(14.dp))
+            TextWithImageComposable(
+                imageRes = R.drawable.ic_sun,
+                text = stringResource(id = R.string.sunrise),
+                modifier = Modifier.padding(start = 16.dp)
+            )
             Text(
-                text = intensity.toString(),
+                text = timeSunrise,
                 style = weatherTypography.h1,
-                fontSize = 38.sp
+                fontSize = 28.sp,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
-            Text(
-                text = stringResource(id = R.string.moderate),
-                style = weatherTypography.body1
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            SliderComposable(intensity.toFloat())
+            Spacer(modifier = Modifier.height(4.dp))
+            SineCurveWithMovingDot()
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun UVIndexPreview() {
-    UVIndexComposable(2)
+fun SunrisePreview() {
+    SunriseBlockComposable("5:00 AM", "7:00 PM")
 }

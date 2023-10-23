@@ -1,4 +1,4 @@
-package com.droidgeeks.slweatherapp.presentation.details
+package com.droidgeeks.slweatherapp.presentation.details.entity
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row

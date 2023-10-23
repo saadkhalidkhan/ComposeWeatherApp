@@ -1,8 +1,9 @@
-package com.droidgeeks.slweatherapp.presentation.details
+package com.droidgeeks.slweatherapp.presentation.details.entity
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,15 +18,15 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.droidgeeks.coreui.ui.theme.weatherTypography
 import com.droidgeeks.slweatherapp.R
 
 @Composable
-fun SunriseBlockComposable(timeSunrise: String, timeSunset: String) {
+fun AirQualityComposable(humidity: Float = 3f) { //repurposed because AQI not available
     Card( modifier = Modifier
         .fillMaxWidth()
-        .height(180.dp)
+        .height(154.dp)
+        .padding(horizontal = 10.dp)
         .shadow(
             elevation = 50.dp,
             shape = RoundedCornerShape(8.dp),
@@ -37,28 +38,39 @@ fun SunriseBlockComposable(timeSunrise: String, timeSunset: String) {
     ) {
         Column (
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp)
+                .fillMaxSize()
+                .padding(15.dp)
         ) {
-            TextWithImageComposable(
-                imageRes = R.drawable.ic_sun,
-                text = stringResource(id = R.string.sunrise),
-                modifier = Modifier.padding(start = 16.dp)
-            )
-            Text(
-                text = timeSunrise,
-                style = weatherTypography.h1,
-                fontSize = 28.sp,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            SineCurveWithMovingDot()
+            TextWithImageComposable(imageRes = R.drawable.ic_aqi, text = stringResource(id = R.string.humidity))
+            Spacer(modifier = Modifier.height(10.dp))
+            HealthRiskComposable(text = getHumidityDescription(humidity))
+            Spacer(modifier = Modifier.height(10.dp))
+            SliderComposable(humidity, 100f)
         }
     }
 }
 
+@Composable
+fun HealthRiskComposable(text: String) {
+    Text(
+        text = text,
+        style = weatherTypography.h2,
+        color = colorResource(id = R.color.white)
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
-fun SunrisePreview() {
-    SunriseBlockComposable("5:00 AM", "7:00 PM")
+fun AQIComposable() {
+    AirQualityComposable()
+}
+
+fun getHumidityDescription(humidity: Float): String {
+    val humidityInt = humidity.toInt()
+    return when {
+        humidity < 30f -> "$humidityInt-Low humidity"
+        humidity in 30f..60f -> "$humidityInt-Moderate humidity"
+        humidity > 60f -> "$humidityInt-High humidity"
+        else -> "$humidityInt-Unknown"
+    }
 }
