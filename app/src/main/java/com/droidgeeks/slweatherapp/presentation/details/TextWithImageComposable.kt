@@ -19,14 +19,14 @@ import com.droidgeeks.coreui.ui.theme.weatherTypography
 import com.droidgeeks.slweatherapp.R
 
 @Composable
-fun TextWithImageComposable (imageRes: Int, text: String) {
+fun TextWithImageComposable (imageRes: Int, text: String, modifier: Modifier = Modifier) {
     Row (
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = painterResource(id = imageRes),
             contentDescription = stringResource(id = R.string.aqi_img_desc),
-            modifier = Modifier.height(18.dp).width(18.dp)
+            modifier = modifier.height(18.dp).width(18.dp)
         )
         Text(
             text = text,

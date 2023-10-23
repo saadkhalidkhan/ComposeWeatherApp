@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -39,16 +38,18 @@ fun SunriseBlockComposable(timeSunrise: String, timeSunset: String) {
         Column (
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(vertical = 16.dp)
         ) {
             TextWithImageComposable(
                 imageRes = R.drawable.ic_sun,
-                text = stringResource(id = R.string.sunrise)
+                text = stringResource(id = R.string.sunrise),
+                modifier = Modifier.padding(start = 16.dp)
             )
             Text(
                 text = timeSunrise,
                 style = weatherTypography.h1,
-                fontSize = 28.sp
+                fontSize = 28.sp,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(4.dp))
             SineCurveWithMovingDot()

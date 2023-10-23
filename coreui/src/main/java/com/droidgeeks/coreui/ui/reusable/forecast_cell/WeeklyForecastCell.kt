@@ -28,7 +28,7 @@ fun WeekForecastCell(icon: String, day: String, temperature: String, index: Int)
 
     Column(
         modifier = Modifier
-            .width(55.dp)
+            .width(59.dp)
             .clip(RoundedCornerShape(25.dp))
             .background(if (index == 0) CellStroke else CellBg)
             .border(width = 1.dp, color = CellStroke, shape = RoundedCornerShape(25.dp))
