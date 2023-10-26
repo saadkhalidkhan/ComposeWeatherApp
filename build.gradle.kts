@@ -5,5 +5,5 @@ plugins {
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.ksp.android) apply false
     alias(libs.plugins.hilt.android) apply false
-    id("com.android.library") version "8.1.0" apply false
+    id("com.android.library") version "8.0.1" apply false
 }

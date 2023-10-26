@@ -24,11 +24,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -50,6 +54,7 @@ import com.droidgeeks.slweatherapp.R
 import com.droidgeeks.slweatherapp.domain.model.ForecastDay
 import com.droidgeeks.slweatherapp.domain.model.HourData
 import com.droidgeeks.slweatherapp.presentation.details.entity.AirQualityComposable
+import com.droidgeeks.slweatherapp.presentation.details.entity.Scrim
 import com.droidgeeks.slweatherapp.presentation.details.entity.SunriseBlockComposable
 import com.droidgeeks.slweatherapp.presentation.details.entity.UVIndexComposable
 import com.droidgeeks.slweatherapp.presentation.details.entity.WindStatusComposable
@@ -62,6 +67,9 @@ fun DetailScreen(
 ) {
     val weatherForecast by viewModel.weatherForecast.collectAsStateWithLifecycle()
     val isLoading by viewModel.homeWeatherState.collectAsStateWithLifecycle()
+
+    var activeId by rememberSaveable { mutableStateOf<Int?>(null) }
+    val scrim = remember(activeId) { FocusRequester() }
 
     LaunchedEffect(true) {
         latLng?.let {
@@ -109,8 +117,7 @@ fun DetailScreen(
                             .background(
                                 brush = Brush.verticalGradient(
                                     colors = listOf(
-                                        Color(0xFF1E2653),
-                                        Color(0xFF271644)
+                                        Color(0xFF1E2653), Color(0xFF271644)
                                     )
                                 )
                             )
@@ -174,7 +181,9 @@ fun DetailScreen(
                                     timeSunrise = weatherForecast?.forecast?.forecastday?.get(0)?.astro?.sunrise
                                         ?: "",
                                     timeSunset = weatherForecast?.forecast?.forecastday?.get(0)?.astro?.sunset
-                                        ?: ""
+                                        ?: "",
+                                    navigateToFullScreen = { activeId = it },
+                                    showDetails = false
                                 )
                             }
                         }
@@ -203,6 +212,28 @@ fun DetailScreen(
             }
         }
     }
+    if(activeId!=null) {
+        FullScreenWidget(
+            onDismiss = { activeId = null },
+            modifier = Modifier.focusRequester(scrim).fillMaxSize(),
+            widget = { showDetails->
+                SunriseBlockComposable(
+                    timeSunrise = weatherForecast?.forecast?.forecastday?.get(
+                        0
+                    )?.astro?.sunrise ?: "",
+                    timeSunset = weatherForecast?.forecast?.forecastday?.get(
+                        0
+                    )?.astro?.sunset ?: "",
+                    navigateToFullScreen = { activeId = it },
+                    showDetails = true
+                )
+            }
+        )
+        LaunchedEffect(activeId) {
+            scrim.requestFocus()
+        }
+    }
+
 }
 
 @Composable
@@ -254,6 +285,21 @@ fun setWeeklyList(forecast: List<ForecastDay>) {
                 )
             }
         }
+    }
+}
+@Composable
+private fun FullScreenWidget(
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+    widget: @Composable (showDetails:Boolean) -> Unit,
+) {
+    Box(
+        modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Scrim(onDismiss, Modifier.fillMaxSize())
+//        PhotoImage(photo)
+        widget(true)
     }
 }
 

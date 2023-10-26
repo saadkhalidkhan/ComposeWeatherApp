@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -53,28 +54,30 @@ fun SineCurveWithMovingDot(
     ) {
 
         //draws bell
+        val circleRadius = 16f
+        val bottomHeight = circleRadius
         val path = Path()
         for (i in 0..pointsCount) {
             val x = i * (size.width / pointsCount)
             val angle = (x / size.width) * (2 * PI) + startAngle
-            val y = (size.height / 2) * kotlin.math.sin(angle)
+            val y = ((size.height - bottomHeight) / 2) * kotlin.math.sin(angle)
 
             if (i == 0) {
-                path.moveTo(x, ((size.height / 2) - y).toFloat())
+                path.moveTo(x, (((size.height - bottomHeight) / 2) - y).toFloat())
             } else {
-                path.lineTo(x, ((size.height / 2) - y).toFloat())
+                path.lineTo(x, (((size.height - bottomHeight) / 2) - y).toFloat())
             }
         }
         drawPath(path, color = color, style = Stroke(width = curveWidth))
 
         //draws dot
         val dotX = size.width * animationProgress.value
-        val dotY = ((size.height / 2) - (size.height / 2) * kotlin.math.sin(dotX * (2 * PI) / size.width + startAngle)).toFloat()
-        drawCircle(color = Color.Yellow, radius = 16f, center = Offset(dotX, dotY))
+        val dotY = (((size.height - bottomHeight) / 2) - ((size.height - bottomHeight) / 2) * kotlin.math.sin(dotX * (2 * PI) / size.width + startAngle)).toFloat()
+        drawCircle(color = Color.Yellow, radius = circleRadius, center = Offset(dotX, dotY))
 
 
-        val sunriseY = (size.height / 2) - (size.height / 2) * kotlin.math.sin((sunrise * (2 * PI) / totalMinutes).toFloat() + startAngle)
-        val sunsetY = (size.height / 2) - (size.height / 2) * kotlin.math.sin((sunset * (2 * PI) / totalMinutes).toFloat() + startAngle)
+        val sunriseY = ((size.height - bottomHeight) / 2) - ((size.height - bottomHeight) / 2) * kotlin.math.sin((sunrise * (2 * PI) / totalMinutes).toFloat() + startAngle)
+        val sunsetY = ((size.height - bottomHeight) / 2) - ((size.height - bottomHeight) / 2) * kotlin.math.sin((sunset * (2 * PI) / totalMinutes).toFloat() + startAngle)
 
         // Calculate the slope and intercept of the line
         val slope = (sunsetY - sunriseY) / (sunset - sunrise)
@@ -90,14 +93,14 @@ fun SineCurveWithMovingDot(
             start = Offset(x = startX, y = startY),
             end = Offset(x = endX, y = endY),
         )
-        /*val colorUnderLine = Path().apply {
+        val colorUnderLine = Path().apply {
             moveTo(0f,startY)
             lineTo(size.width,endY)
             lineTo(size.width,size.height)
             lineTo(0f,size.height)
             lineTo(0f,startY)
         }
-        drawPath(colorUnderLine,color = Color.Black, alpha = 0.7f, style = Fill) */
+        drawPath(colorUnderLine,color = Color.Black, alpha = 0.5f, style = Fill)
 
     }
 }

@@ -14,11 +14,12 @@
     <string name="humidity">HUMIDITY</string>
     <string name="uv_index">UV INDEX</string>
     <string name="sunrise">SUNRISE</string>
-    <string name="sunset">Sunset: </string>
+    <string name="sunset">SUNSET</string>
     <string name="aqi_img_desc">AQI</string>
     <string name="moderate">Moderate</string>
     <string name="weekly_forecast">Weekly Forecast</string>
     <string name="kmh">km/h</string>
     <string name="enter_location">Enter Location</string>
+    <string name="close">Close</string>
 
 </resources>
